@@ -1,0 +1,10 @@
+.vscode
+
+FuseDream/
+VQGAN-CLIP/
+vqgan
+
+images/
+metadata/images.csv
+
+.env
