@@ -482,7 +482,7 @@ Stable Diffusion v1.4:
 
 The PRISM-36K dataset is publicly available on Zenodo:
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20065919.svg)](https://doi.org/10.5281/zenodo.20065919)
+[![Zenodo](https://img.shields.io/badge/Zenodo-20065919-1b60c2?logo=zenodo)](https://zenodo.org/records/20065919)
 
 The dataset contains 36,000 AI-generated images (6,000 images per model) along with corresponding metadata for fingerprinting and attribution research.
 
