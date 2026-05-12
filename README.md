@@ -22,25 +22,33 @@ This repository contains the **image generation pipeline** for the PRISM framewo
 This repository is organized as follows:
 
 ```
-generation/
-├── generation.py              # Main image generation script (4 API models)
-├── requirements.txt           # Python dependencies for API-based models
-├── readme.md                  # This file
-├── .env                       # API keys (OPENAI_API_KEY, HUGGINGFACE_TOKEN, REPLICATE_API_TOKEN)
-├── FuseDream/                 # FuseDream repository (cloned, separate environment)
-├── VQGAN-CLIP/                # VQGAN-CLIP repository (cloned, separate environment)
-└── images/                    # Output directory (created automatically after generation.py)
-    ├── dalle2/                # DALL·E 2 images
-    ├── nvidia-sana/           # NVIDIA Sana images
-    ├── pixart/                # PixArt images
-    ├── stable-diffusion/      # Stable Diffusion images
-    ├── fusedream/             # FuseDream images (generated from FuseDream)
-    └── vqgan_clip/            # VQGAN-CLIP images (generated from VQGAN-CLIP)
+PRISM-36K/
+├── metadata/                           
+│   ├── prompts.csv             # prompt_id, length, pair_id, prompt text
+│   ├── images.csv              # filename, model, prompt_id, iter, sha256, width, height (after image generation) 
+│── src/ 
+│   ├── generateMetadata.py     # file to generate files in the folder metadata/
+│   ├── generation.py           # Main image generation script (4 API models)
+├── .env-template               # API keys (OPENAI_API_KEY, HUGGINGFACE_TOKEN, REPLICATE_API_TOKEN)
+│── changelog.md                # version history
+│── LICENSE.txt                 # CC-BY-4.0 license
+├── README.md                   # this file
+├── requirements.txt            # Python dependencies for API-based models
+├── FuseDream/                  # FuseDream repository (cloned, separate environment)
+├── VQGAN-CLIP/                 # VQGAN-CLIP repository (cloned, separate environment)
+└── images/                     # Output directory (created automatically after generation.py)
+    ├── dalle2/                 # DALL·E 2 images
+    ├── nvidia-sana/            # NVIDIA Sana images
+    ├── pixart/                 # PixArt images
+    ├── stable-diffusion/       # Stable Diffusion images
+    ├── fusedream/              # FuseDream images (generated from FuseDream)
+    └── vqgan_clip/             # VQGAN-CLIP images (generated from VQGAN-CLIP)
+
 ```
 
 ## Supported Image Generation Models
 
-The `generation.py` script supports 4 different image generation models:
+The `src/generation.py` script supports 4 different image generation models:
 
 - **NVIDIA Sana**: Efficient high-resolution image synthesis with linear diffusion transformer
 - **PixArt-α**: Fast training diffusion transformer for photorealistic text-to-image synthesis
@@ -113,7 +121,7 @@ python -m pip install -r requirements.txt
 Run the main generation script:
 
 ```bash
-python generation.py --responses N
+python src/generation.py --responses N
 ```
 
 **Parameters:**
@@ -388,6 +396,23 @@ This will:
 
 ---
 
+## Generate Metadata
+
+After generating all images from the above models, run the metadata generation script to create `metadata/images.csv`:
+
+```bash
+python src/generateMetadata.py
+```
+
+This script will:
+- Scan the `images/` directory for all generated images
+- Extract image properties (filename, model, dimensions, hash)
+- Create `metadata/images.csv` with columns: `filename, model, prompt_id, iter, sha256, width, height`
+
+This CSV file is required for subsequent analysis and attribution tasks.
+
+---
+
 ### References
 
 VQGAN - CLIP:
@@ -453,9 +478,13 @@ Stable Diffusion v1.4:
 - Pre-trained model available at [Hugging Face](https://huggingface.co/CompVis/stable-diffusion-v1-4)
 
 
-## Companion dataset
+## Companion Dataset
 
-....
+The PRISM-36K dataset is publicly available on Zenodo:
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20065919.svg)](https://doi.org/10.5281/zenodo.20065919)
+
+The dataset contains 36,000 AI-generated images (6,000 images per model) along with corresponding metadata for fingerprinting and attribution research.
 
 ---
 
